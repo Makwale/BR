@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="ourtheme">
+    <ion-title>Signin</ion-title>
+    
+    <ion-buttons slot="start">
+      <ion-back-button>
+
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="navigate()">Back</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div style="position: fixed;" >
+    <img src="../../../assets/ionic.jpg">
+    <div style="position: absolute; width: 100%; height: 299px; background-color: #0a4694;top: 0%; z-index: 100;"></div>
+  </div>
+
+  
+  <div style="position: absolute; z-index: 150; top: 20%; width: 100%; height: 100%; background-color: white; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+
+
+  <ion-grid style="margin-top: 4%;">
+   
+    <ion-row>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label color="ourtheme" position="floating">Email</ion-label>
+          <ion-input [(ngModel)]="email" type="email" ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label color="ourtheme" position="floating">Password</ion-label>
+          <ion-input [(ngModel)]="password" type="password"></ion-input>
+        </ion-item>
+
+        <ion-button (click)="signin()" expand="block" color="ourtheme"><span *ngIf="!auth.clicked">Signin</span><ion-spinner *ngIf="auth.clicked" name="bubbles"></ion-spinner></ion-button>
+        
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  </div>
+</ion-content>

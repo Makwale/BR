@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-avatar>
+      <img style="margin-left: 10px;" src="../../../assets/bus.png">
+    </ion-avatar>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="searchbus()">
+        <ion-icon color="ourtheme" name="search-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="toggle()"><ion-icon size="large" color="ourtheme" name="menu-outline"></ion-icon></ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-menu side="start" menuId="menu" contentId="main">
+    <ion-header *ngIf="acs.loginStatus">
+      <ion-toolbar color="ourtheme">
+        <h4 style="text-align: center; margin-top: 15px; font-weight: 500;letter-spacing: 1px;">Welcome Back {{acs.user.firstname}}</h4>
+      </ion-toolbar>
+    </ion-header>
+  
+    <div *ngIf="acs.loginStatus" style="text-align: center;">
+      <ion-avatar style="height: 150px; width: 150px; margin: auto; margin-top: 10px;">
+        <img *ngIf="acs.user.imgURL == ''" [src]="defaultPic">
+        <img *ngIf="acs.user.imgURL != ''" [src]="acs.user.imgURL">
+
+      </ion-avatar>
+      <ion-button color="ourtheme" fill="transparent" style="margin: auto;" (click)="edit()"><ion-icon size="large" color="ourtheme" name="camera-outline"></ion-icon></ion-button>
+      
+    </div>
+    
+    <ion-content>
+      <ion-list>
+        <ion-item (click)="navigate('')" ><ion-icon color="ourtheme" slot="start" name="home-outline"></ion-icon><span style="color: #0a4694;">Home</span></ion-item>
+        
+        <ion-item *ngIf="acs.loginStatus" (click)="navigate('bookings')" ><ion-icon color="ourtheme" slot="start" name="bookmark-outline"></ion-icon><span style="color: #0a4694;">Bookings</span></ion-item>
+        
+        <ion-item (click)="navigate('map')"> <ion-icon color="ourtheme" slot="start" name="map-outline"></ion-icon><span style="color: #0a4694;">Map</span></ion-item>
+       
+        <ion-item *ngIf="acs.loginStatus" (click)="navigate('account')" ><ion-icon color="ourtheme" slot="start" name="person-outline"></ion-icon><span style="color: #0a4694;">Account</span></ion-item>
+        
+        <ion-item *ngIf="!acs.loginStatus" (click)="navigate('signin')"><ion-icon color="ourtheme" slot="start" name="log-in-outline"></ion-icon><span style="color: #0a4694;">Signin</span></ion-item>
+        
+        <ion-item *ngIf="!acs.loginStatus" (click)="navigate('signup')"><ion-icon slot="start" color="ourtheme" name="person-add-outline"></ion-icon><span style="color: #0a4694;">Signup</span></ion-item>
+        
+        <ion-item *ngIf="acs.loginStatus" (click)="signout()" ><ion-icon slot="start" color="ourtheme" name="log-out-outline"></ion-icon><span style="color: #0a4694;">Signout</span></ion-item>
+        
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  
+  <ion-router-outlet id="main"></ion-router-outlet>
+</ion-content>

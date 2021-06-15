@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar color="ourtheme">
+    <ion-title>Map</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" *ngIf="ts.slot" (click)="track()">Track</ion-button>
+
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="map" style="height: 100%;"></div>
+</ion-content>
