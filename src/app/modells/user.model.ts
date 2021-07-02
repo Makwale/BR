@@ -1,10 +1,11 @@
 export class User{
-    id;
-    firstname;
-    lastname;
-    email;
-    imgURL
-    constructor(id, firstname, lastname, email, imgURL){
+    id?;
+    firstname?;
+    lastname?;
+    email?;
+    imgURL?
+    playerid?
+    constructor(id, firstname, lastname, email?, imgURL?, playerid?){
         
         this.id = id;
 
@@ -15,5 +16,7 @@ export class User{
          this.email = email;
 
          this.imgURL = imgURL;
+
+         this.playerid = playerid
     }
 }

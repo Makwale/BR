@@ -44,6 +44,8 @@ export class AccountPage implements OnInit {
     this.signupForm.controls["firstname"].setValue(this.acs.user.firstname)
     this.signupForm.controls["lastname"].setValue(this.acs.user.lastname)
     this.signupForm.controls["phone"].setValue((<Driver>this.acs.user).phone)
+
+    console.log(this.acs.user)
   }
 
   get firstname() { return this.signupForm.get('firstname')}

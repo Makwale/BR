@@ -9,9 +9,8 @@
 </ion-header>
 
 <ion-content>
-
- 
-  <ion-grid>
+  
+  <ion-grid style="position: fixed; top: 10%; z-index: 100; background-color: #fff; width: 100%;">
     <ion-row>
       <ion-col size="6">
         <ion-item>
@@ -45,14 +44,14 @@
     </ion-row>
 
     <ion-row>
-      <ion-col size="7">
+      <ion-col size="6">
           <ion-item>
             <ion-label color="ourtheme" position="floating">Date</ion-label>
             <ion-input type="date" (ionChange)="searchBus()" [(ngModel)]="date" ></ion-input>
           </ion-item>
 
       </ion-col>
-      <ion-col size="5">
+      <ion-col size="6">
 
         <ion-item>
           <ion-label color="ourtheme" position="floating">Time</ion-label>
@@ -63,53 +62,63 @@
     </ion-row>
   </ion-grid>
 
-  <ion-card *ngFor="let slot of slots" >
-   
-      
-    <ion-grid>
-      <ion-row>
-        <ion-col size="5">
-          <ion-label>From: {{slot.from}}</ion-label>
-        </ion-col>
-        <ion-col size="2">
-          <ion-icon size="medium" name="swap-horizontal-outline"></ion-icon>
-        </ion-col>
-  
-        <ion-col size="5">
-          <ion-label>To: {{slot.to}}</ion-label>
-        </ion-col>
-      </ion-row>
-  
-      <ion-row>
-        <ion-col size="5">
-          <ion-label>Date: {{slot.date | date: 'mediumDate'}}</ion-label>
-        </ion-col>
-        <ion-col size="2">
-            
-        </ion-col>
-  
-        <ion-col size="5">
-          <ion-label>Time: {{slot.date | date: 'shortTime'}}</ion-label>
-        </ion-col>
-      </ion-row>
-  
-      <ion-row>
-        <ion-col size="5">
-          <ion-label>Seats Avail: {{slot.availableSeats}}</ion-label>
-        </ion-col>
-        <ion-col size="2">
-           
-        </ion-col>
-  
-        <ion-col size="5">
-          <ion-label>Seats Booked: {{slot.bookedSeats}}</ion-label>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    
-    <ion-button size="small" color="ourtheme" expand="block">Book</ion-button>
-  </ion-card>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content refreshing-spinner="bubbles"  pulling-text="Pull to refresh"></ion-refresher-content>
+  </ion-refresher>
 
+  <div style="margin-top: 142px;">
+ 
+    <ion-card  *ngFor="let slot of slots" > 
+      <ion-grid>
+        <ion-row>
+          <ion-col size="5">
+            <ion-label>From: {{slot.from}}</ion-label>
+          </ion-col>
+          <ion-col size="2" style="text-align: center;">
+            <ion-icon size="medium" name="swap-horizontal-outline"></ion-icon>
+          </ion-col>
+    
+          <ion-col size="5">
+            <ion-label>To: {{slot.to}}</ion-label>
+          </ion-col>
+        </ion-row>
+    
+        <ion-row>
+          <ion-col size="5">
+            <ion-label>Date: {{slot.date | date: 'mediumDate'}}</ion-label>
+          </ion-col>
+          <ion-col size="2">
+              
+          </ion-col>
+    
+          <ion-col size="5">
+            <ion-label>Time: {{slot.date | date: 'shortTime'}}</ion-label>
+          </ion-col>
+        </ion-row>
+    
+        <ion-row>
+          <ion-col size="5">
+            <ion-label>Seats Avail: {{slot.availableSeats}}</ion-label>
+          </ion-col>
+          <ion-col size="2">
+            
+          </ion-col>
+    
+          <ion-col size="5">
+            <ion-label>Seats Booked: {{slot.bookedSeats}}</ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      
+      <ion-button size="small" color="ourtheme" expand="block" (click)="book(slot)">Book</ion-button>
+    </ion-card>
+    <h3 *ngIf="slots.length == 0" style="text-align: center; color: #0a46947e">No available slots for your search</h3>
+  </div>
+
+
+  
+
+  
 
 
 </ion-content>

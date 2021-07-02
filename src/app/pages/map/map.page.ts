@@ -1,10 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Slot } from 'src/app/modells/slot.model';
 import { DatabaseService } from 'src/app/services/database.service';
 import { TrackingService } from 'src/app/services/tracking.service';
-import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
-import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 
 
 declare var mapboxgl: any;
@@ -14,9 +12,8 @@ declare var MapboxDirections;
   selector: 'app-map',
   templateUrl: './map.page.html',
   styleUrls: ['./map.page.scss'],
-  providers: [LocalNotifications, TextToSpeech]
 })
-export class MapPage implements OnInit {
+export class MapPage implements OnInit, OnDestroy {
   @Input() selectedSlot: Slot;
   map;
 	direction;
@@ -29,10 +26,6 @@ export class MapPage implements OnInit {
     },
     {name: "Sosh North",
      geo:[28.11295, -25.52039]
-    },
-    {
-      name: "Pta Main",
-      geo: [28.16242, -25.73176]
     },
     {
       name: "Pta Main",
@@ -52,9 +45,7 @@ export class MapPage implements OnInit {
     }
     
   ]
-  constructor(private ts: TrackingService, private dbs: DatabaseService,
-    private localNotifications: LocalNotifications,
-    private tts: TextToSpeech) { }
+  constructor(private ts: TrackingService, private dbs: DatabaseService) { }
 
   ngOnInit() {
 
@@ -95,8 +86,53 @@ export class MapPage implements OnInit {
       trackUserLocation: true
     }));
 
-   
 
+
+    new mapboxgl.Popup({ 
+      closeButton: false,
+      anchor: 'bottom',
+      closeOnClick: false}).setText(
+      'TUT Sosh South Campus'
+    ).setLngLat(this.campusesLocations[0].geo).addTo(this.map);
+    
+    new mapboxgl.Popup({ 
+      closeButton: false,
+      anchor: 'bottom',
+      closeOnClick: false}).setText(
+        'TUT Sosh North Campus'
+      ).setLngLat(this.campusesLocations[1].geo).addTo(this.map);
+      
+
+      new mapboxgl.Popup({ 
+        closeButton: false,
+        anchor: 'bottom',
+        closeOnClick: false}).setText(
+          'TUT Pretoria Campus'
+        ).setLngLat(this.campusesLocations[2].geo).addTo(this.map);
+      
+    new mapboxgl.Popup({ 
+      closeButton: false,
+      anchor: 'bottom',
+      closeOnClick: false}).setText(
+        'TUT Arcadia Campus'
+      ).setLngLat(this.campusesLocations[3].geo).addTo(this.map);
+    
+
+    new mapboxgl.Popup({ 
+      closeButton: false,
+      anchor: 'bottom',
+      closeOnClick: false}).setText(
+        'TUT Garankuwa Campus'
+      ).setLngLat(this.campusesLocations[4].geo).addTo(this.map);
+  
+    new mapboxgl.Popup({ 
+      closeButton: false,
+      anchor: 'bottom',
+      closeOnClick: false}).setText(
+        'TUT Arts Campus'
+      ).setLngLat(this.campusesLocations[5].geo).addTo(this.map);
+      
+    
     setTimeout(()=> {
       if(this.ts.slot != undefined){
         for(let camp of this.campusesLocations){
@@ -130,6 +166,10 @@ export class MapPage implements OnInit {
 
   }
 
+  ngOnDestroy(){
+    this.ts.slot = null;
+  }
+
   track(){
 
     let temp = 0;
@@ -141,36 +181,16 @@ export class MapPage implements OnInit {
     this.ts.getBusCoordinates().subscribe(data =>{
       
       if(data.payload.data()["gps"] == undefined || !data.payload.data()["gps"]){
-        alert("Bus GPS is currently disabled")
+        
+        if(this.ts.slot != null){
+          alert("Bus GPS is currently disabled")
+        }
       }else{
 
         let busdata = data.payload.data();
         let geo = busdata["geo"];
-
-        let busLocation = new mapboxgl.LngLat(geo[0], geo[1])
-        let distance = busLocation.distanceTo(destination)
         
         busMarker.setLngLat([geo[0], geo[1]])
-
-
-        if(distance  < 1500){
-          if(temp == 0){
-            this.localNotifications.schedule({
-              id: 1,
-              text: 'The bus is less than 1 km away, be ready',
-              sound: 'file://sound.mp3',
-            });
-    
-            this.tts.speak('The bus is less than 1 km away, be ready')
-            .then(() => console.log('Success'))
-            .catch((reason: any) => alert(reason));
-            
-          }
-          
-        }
-
-        temp++;
-      
     
       }
         

@@ -10,13 +10,18 @@
     <param name="android-package" value="org.apache.cordova.device.Device"/>
   </feature>
 
-  <feature name="LocalNotification">
-    <param name="android-package" value="de.appplant.cordova.plugin.localnotification.LocalNotification"/>
+  <feature name="StatusBar">
+    <param name="android-package" value="org.apache.cordova.statusbar.StatusBar"/>
+    <param name="onload" value="true"/>
   </feature>
 
   <feature name="TTS">
     <param name="android-package" value="com.wordsbaking.cordova.tts.TTS"/>
     <param name="onload" value="true"/>
+  </feature>
+
+  <feature name="OneSignalPush">
+    <param name="android-package" value="com.plugin.gcm.OneSignalPush"/>
   </feature>
 
   <feature name="BarcodeScanner">

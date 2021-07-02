@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { MenuPageRoutingModule } from './menu-routing.module';
-
+import { OneSignal, OSNotification } from '@ionic-native/onesignal/ngx';
 import { MenuPage } from './menu.page';
 
 @NgModule({
@@ -15,6 +15,7 @@ import { MenuPage } from './menu.page';
     IonicModule,
     MenuPageRoutingModule
   ],
-  declarations: [MenuPage]
+  declarations: [MenuPage],
+  providers: [OneSignal]
 })
 export class MenuPageModule {}

@@ -12,10 +12,10 @@ import { Slot } from 'src/app/modells/slot.model';
 export class ScannerPage implements OnInit {
   @Input() slot: Slot;
   constructor(public modalController: ModalController,
-     private barcodeScanner: BarcodeScanner, private as: AuthService) { }
+     private barcodeScanner: BarcodeScanner, private as: AuthService, private auth: AuthService) { }
 
   ngOnInit() {
-    console.log(this.slot.id)
+   
   }
 
   close(){
@@ -24,10 +24,13 @@ export class ScannerPage implements OnInit {
 
   scan(){
    
-    this.barcodeScanner.scan().then(barcodeData => {
+    this.barcodeScanner.scan({
+      showTorchButton: true,
+    }).then(barcodeData => {
       this.as.checkStudentIn(this.slot.id, Number(barcodeData.text.substring(1)))
      }).catch(err => {
-         alert('Error ' + err);
+       this.auth.ourToast(err, "danger")
+        
      });
   }
 

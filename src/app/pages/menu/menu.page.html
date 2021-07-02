@@ -1,13 +1,15 @@
 <ion-header>
   <ion-toolbar>
-    <ion-avatar>
-      <img style="margin-left: 10px;" src="../../../assets/bus.png">
-    </ion-avatar>
+    <ion-title color="ourtheme">BR</ion-title>
 
     <ion-buttons slot="end">
       <ion-button (click)="searchbus()">
         <ion-icon color="ourtheme" name="search-outline"></ion-icon>
       </ion-button>
+      <!-- <ion-button (click)="toggle()"><ion-icon size="large" color="ourtheme" name="menu-outline"></ion-icon></ion-button> -->
+    </ion-buttons>
+
+    <ion-buttons slot="start">
       <ion-button (click)="toggle()"><ion-icon size="large" color="ourtheme" name="menu-outline"></ion-icon></ion-button>
     </ion-buttons>
 
@@ -54,4 +56,40 @@
   </ion-menu>
   
   <ion-router-outlet id="main"></ion-router-outlet>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="ourtheme">
+      <ion-icon name="chevron-up-circle-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="navigatef('')" color="ourtheme">
+        <ion-icon name="home"></ion-icon>
+      </ion-fab-button>
+
+      <ion-fab-button *ngIf="acs.loginStatus" (click)="navigatef('bookings')" color="ourtheme">
+        <ion-icon name="bookmark"></ion-icon>
+      </ion-fab-button>
+
+      <ion-fab-button (click)="navigatef('map')" color="ourtheme">
+        <ion-icon name="map"></ion-icon>
+      </ion-fab-button>
+
+      <ion-fab-button *ngIf="acs.loginStatus" (click)="navigatef('account')" color="ourtheme">
+        <ion-icon name="person"></ion-icon>
+      </ion-fab-button>
+
+      <ion-fab-button *ngIf="!acs.loginStatus" (click)="navigatef('signin')" color="ourtheme">
+        <ion-icon name="log-in"></ion-icon>
+      </ion-fab-button>
+
+      <ion-fab-button *ngIf="!acs.loginStatus" (click)="navigatef('signup')" color="ourtheme">
+        <ion-icon name="person-add"></ion-icon>
+      </ion-fab-button>
+
+      <ion-fab-button *ngIf="acs.loginStatus"  (click)="signoutf()" color="ourtheme">
+        <ion-icon name="log-out"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
 </ion-content>

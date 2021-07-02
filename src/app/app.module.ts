@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-
+import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MenuPage } from './pages/menu/menu.page';
@@ -43,7 +43,7 @@ const firebaseConfig = {
     MatInputModule,
     MatFormFieldModule,
     BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, BrowserAnimationsModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, FormBuilder, AuthService,BarcodeScanner],
+  providers: [OneSignal,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, FormBuilder, AuthService,BarcodeScanner],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

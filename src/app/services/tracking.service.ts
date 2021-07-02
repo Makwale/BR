@@ -15,7 +15,6 @@ export class TrackingService {
       this.dbs.getSlotGeo(this.slot.id).snapshotChanges().subscribe(data =>{
         this.slot.geo[0] = data.payload.data()["geo"][0]
         this.slot.geo[1] = data.payload.data()["geo"][1]
-        console.log(this.slot)
       })
     }
     

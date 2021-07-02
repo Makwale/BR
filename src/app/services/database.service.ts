@@ -8,7 +8,7 @@ import { AccountService } from './account.service';
 import { TrackingService } from './tracking.service';
 import { finalize } from 'rxjs/operators';
 import firebase from 'firebase/app';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, ToastController } from '@ionic/angular';
 import { Student } from '../modells/student.model';
 import { Router } from '@angular/router';
 
@@ -19,13 +19,15 @@ export class DatabaseService {
   slots: Slot[]= []
   slotsDriver: Slot[] = [];
   bookings: Booking[] = [];
-  tempbooking: Booking[] = [];
+  tempBookings: Booking[] = [];
   isSlotUpdated = false;
   isBookingUpdated = false;
-  couterGetBooking = 0;
+  counter = 0;
+  
 
   constructor(private afs: AngularFirestore,public popoverController: PopoverController, 
-    private acs: AccountService, private storage: AngularFireStorage, private router: Router) { }
+    private acs: AccountService, private storage: AngularFireStorage, private router: Router,
+  public toastController: ToastController) { }
 
   getSlots(){
    
@@ -40,7 +42,8 @@ export class DatabaseService {
         slotdata["geo"], slotdata["avail"], slotdata["booked"], slotdata["from"], slotdata["to"])
 
         if(!this.searchSlot(slot))
-          this.slots.push(slot);
+          if(!slotdata["delivered"])
+            this.slots.push(slot);
         
       }
     })
@@ -54,65 +57,77 @@ export class DatabaseService {
     return false
   }
 
-  book(slotId){
+  async book(slotId){
 
-    console.log(this.bookings)
 
-    if(!this.preventDuplicates(slotId)){
+    if(!this.preventDuplicates(slotId, this.acs.user.id)){
       if(!this.isStudentBookedBefore(slotId, this.acs.user.id)){
-      
+       
         this.afs.collection("Booking").add({
           slotid: slotId,
-          studentid: this.acs.user.id
-        }).then(res => {
-          alert("Booked")
+          studentid: this.acs.user.id,
+          date: new Date(),
+          studentNumber: (<Student>this.acs.user).studentNumber,
+          playerid: this.acs.user.playerid,
+          checkedin: false
+        }).then(async res => {
+          
           this.updateSlotBooking(slotId);
-        }).catch(error => {
-          alert("Something wrong happened")
+          
+        }).catch( error => {
+          this.bookingToast(error.message, 'warning')
         })
       }else{
+        
         this.updateSlotBooking(slotId)
       }
      
     }else{
-      alert("You already booked")
+      this.bookingToast('You already booked on this slot', 'warning')
     }
     
   }
 
+  async bookingToast(message, color){
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 3000,
+      color: color
+    });
+    toast.present();
+  }
+
   getBookings(){
-    console.log(this.couterGetBooking)
-   
-      this.afs.collection("Booking", ref => ref.where("studentid", "==", this.acs.user.id)).snapshotChanges().subscribe(data => {
-   
-        for(let booking of data){
-          let bookingId = booking.payload.doc.id;
-          let bookingData = booking.payload.doc.data();
-  
+      this.afs.collection("Booking").snapshotChanges().subscribe(data => {
+       
+        for(let book of data){
+
+          let bookingId = book.payload.doc.id;
+          let bookingData = book.payload.doc.data();
           
-        
-            this.afs.collection("Slot").doc(bookingData["slotid"]).snapshotChanges().subscribe(data => {
+          this.afs.collection("Slot").doc(bookingData["slotid"]).snapshotChanges().subscribe(data => {
+           
               let slotid = data.payload.id;
               let slotdata = data.payload.data()
-    
+             
               let slot = new Slot(slotid, slotdata["date"], slotdata["busid"],
               slotdata["geo"], slotdata["avail"], slotdata["booked"], slotdata["from"], slotdata["to"])
-    
+      
+              let booking = new Booking(bookingId, slot , bookingData["studentid"],
+              bookingData["studentNumber"],bookingData["playerid"], bookingData["cancelled"], bookingData['date']);
               
-                let booking = new Booking(bookingId, slot, this.acs.user.id, bookingData["cancelled"]);
+              if(this.counter == 0){
 
-                  if(!this.searchBooking(booking)){
-                    if(!booking.cancelled){ 
-                      if(this.couterGetBooking == 0){
-                        this.bookings.push(booking)
-                        this.tempbooking.push(booking)
-                      }
-                    }
+                if(!this.searchBooking(booking)){
+                  if(!booking.cancelled && !bookingData['checkedin']){ 
+                    this.bookings.push(booking)
+                    
                   }
-                
-            })
-          
-         
+                }
+              }
+              this.tempBookings.push(booking)
+          })
+      
         }
 
         
@@ -124,13 +139,19 @@ export class DatabaseService {
 
   isStudentBookedBefore(slotid, studid){
     
-      for(let booking of this.tempbooking){
+      for(let booking of this.tempBookings){
 
         if(booking.slot.id == slotid && booking.studentId == studid ){
           this.afs.collection("Booking").doc(booking.id).update({
             cancelled: false
           })
-          alert("Booked")
+
+          this.tempBookings.filter(booking => {
+            if(booking.slot.id == slotid && booking.studentId == studid){
+              booking.cancelled = false;
+            }
+          })
+        
           return true
         }
       }
@@ -138,10 +159,11 @@ export class DatabaseService {
     return false;
   }
 
-  preventDuplicates(id){
+  preventDuplicates(id, stid){
+    
    for(let booking of this.bookings){
-     if(booking.slot.id == id){
-
+     if(booking.slot.id == id && booking.studentId == stid && !booking.cancelled){
+  
        return true
      }
    }
@@ -159,9 +181,11 @@ export class DatabaseService {
           avail: avails,
           booked: bookeds
         }).then(res => {
-          alert("Updated")
+         
+          this.bookingToast('Your booking is successful', 'success')
+
         }).catch( error => {
-          alert("Something went wrong")
+          this.bookingToast(error.message, 'danger')
         })
       }
     }
@@ -180,21 +204,23 @@ export class DatabaseService {
           booked: bookeds
         }).then(res => {
           
-         alert("Booking Cancelled")
+          this.bookingToast('Your booking is cancelled', 'success')
 
          for(let i = 0; i < this.bookings.length; i++){
-           console.log(this.bookings[i])
+           
           if(this.bookings[i].id == booking.id){
             this.bookings[i].cancelled = true;
             this.bookings.splice(i,1);
-            console.log(this.bookings[i])
+            
           }
          
          }
 
-          console.log(this.bookings)
+      
         }).catch( error => {
-          alert("Something went wrong")
+  
+          this.bookingToast(error.message, 'danger')
+
         })
       }
     }
@@ -202,10 +228,11 @@ export class DatabaseService {
    
   }
 
-  searchBooking(tempBooking: Booking){
+  searchBooking(tempBookings: Booking){
+
     for(let booking of this.bookings){
       
-      if(booking.id == tempBooking.id) return true;
+      if(booking.id == tempBookings.id) return true;
     }
 
     return false
@@ -221,9 +248,15 @@ export class DatabaseService {
     this.afs.collection("Booking").doc(booking.id).update({
       cancelled: true
     }).then(() => {
+      this.tempBookings.filter( book => {
+        if(book.id == booking.id){
+          book.cancelled = true;
+        }
+      })
       this.updateSlotCancelation(booking)
     }).catch( error => {
-      alert("Something wrong happened")
+      this.bookingToast(error.message, 'danger')
+
     })
 
     
@@ -239,7 +272,6 @@ export class DatabaseService {
       this.acs.user.lastname = name;
       this.acs.user.lastname = surname;
       (<Student>this.acs.user).studentNumber = sn;
-      alert("Profile updated")
     })
   }
 

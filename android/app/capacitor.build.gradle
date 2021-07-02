@@ -10,11 +10,11 @@ android {
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
 
-    implementation "com.android.support:support-v4:26.+"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "com.onesignal:OneSignal:3.16.0"
+    implementation "com.android.support:support-v4:27.+"
 }
 apply from: "../../node_modules/cordova-plugin-badge/src/android/badge.gradle"
-apply from: "../../node_modules/cordova-plugin-local-notification/src/android/build/localnotification.gradle"
+apply from: "../../node_modules/onesignal-cordova-plugin/build-extras-onesignal.gradle"
 apply from: "../../node_modules/phonegap-plugin-barcodescanner/src/android/barcodescanner.gradle"
 
 if (hasProperty('postBuildExtras')) {

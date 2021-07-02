@@ -8,6 +8,10 @@ import { DatabaseService } from 'src/app/services/database.service';
 import { PopoverController } from '@ionic/angular';
 import { EditpicPage } from '../editpic/editpic.page';
 import { SearchbusPage } from '../searchbus/searchbus.page';
+import { OneSignal, OSNotification } from '@ionic-native/onesignal/ngx';
+import { AuthService } from 'src/app/services/auth.service';
+
+
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.page.html',
@@ -20,11 +24,19 @@ export class MenuPage implements OnInit {
   constructor(public modalController: ModalController,
     private menu: MenuController, private router: Router,
     private dbs: DatabaseService, private acs: AccountService, 
-    private afa: AngularFireAuth, public popoverController: PopoverController) { }
+    private afa: AngularFireAuth, public popoverController: PopoverController,
+    private oneSignal: OneSignal, private auth: AuthService,) { }
 
   ngOnInit() {
+
+    this.oneSignal.startInit(this.auth.app_id, this.auth.project_id)
+    this.oneSignal.endInit()
+
+    this.oneSignal.getIds().then(res => {
+      this.auth.playerid =  res.userId
+    })
     this.dbs.getSlots();
-    
+    this.dbs.getBookings();
   }
 
   
@@ -43,12 +55,28 @@ export class MenuPage implements OnInit {
       this.router.navigateByUrl("menu/" + route)
   }
 
+  navigatef(route){
+
+    if(route == "")
+      this.router.navigateByUrl("menu")
+    else
+      this.router.navigateByUrl("menu/" + route)
+  }
+
   signout(){
     this.afa.signOut().then(res => {
       this.acs.loginStatus = false;
       this.router.navigateByUrl("menu")
       this.dbs.bookings = []
       this.menu.toggle()
+    })
+  }
+
+  signoutf(){
+    this.afa.signOut().then(res => {
+      this.acs.loginStatus = false;
+      this.router.navigateByUrl("menu")
+      this.dbs.bookings = []
     })
   }
 

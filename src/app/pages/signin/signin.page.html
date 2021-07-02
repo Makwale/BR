@@ -27,20 +27,35 @@
     </ion-row>
     <ion-row>
       <ion-col size="12">
-        <ion-item>
+        <ion-item *ngIf="!isReset">
           <ion-label color="ourtheme" position="floating">Email</ion-label>
-          <ion-input [(ngModel)]="email" type="email" ></ion-input>
+          <ion-input enterkeyhint="next" [(ngModel)]="email" type="email" ></ion-input>
         </ion-item>
 
-        <ion-item>
+        <ion-item *ngIf="!isReset">
           <ion-label color="ourtheme" position="floating">Password</ion-label>
-          <ion-input [(ngModel)]="password" type="password"></ion-input>
+          <ion-input enterkeyhint="go" [(ngModel)]="password" type="password"></ion-input>
         </ion-item>
 
-        <ion-button (click)="signin()" expand="block" color="ourtheme"><span *ngIf="!auth.clicked">Signin</span><ion-spinner *ngIf="auth.clicked" name="bubbles"></ion-spinner></ion-button>
+        <ion-button *ngIf="!isReset" (click)="signin()" expand="block" color="ourtheme"><span *ngIf="!auth.clicked">Signin</span><ion-spinner *ngIf="auth.clicked" name="bubbles"></ion-spinner></ion-button>
+        <div style="text-align: center;" *ngIf="!isReset">
+          <ion-label>Forgot Password? </ion-label> <ion-label color="ourtheme" (click)="reset()">Click here</ion-label>
+        </div>
+
+        <div *ngIf="isReset">
+          <ion-item>
+            <ion-label color="ourtheme" position="floating">Email</ion-label>
+            <ion-input enterkeyhint="go" [(ngModel)]="email" type="email" ></ion-input>
+          </ion-item>
+          <ion-button (click)="resetPassword()" expand="block"  color="ourtheme"><span>Reset</span></ion-button>
+          <ion-button style="margin-top: 10px;" (click)="cancel()" expand="block"  color="light"><span>Cancel</span></ion-button>
+
+        </div>
+
         
       </ion-col>
     </ion-row>
+    
   </ion-grid>
 
   </div>

@@ -7,11 +7,10 @@ export class Slot{
     bus: Bus;
     from;
     to;
-    driverId?;
     geo = [];
     availableSeats;
     bookedSeats;
-
+    delivered;
     constructor(id, date, bus, geo, availableSeats, bookedSeats, from, to){
 
         this.id = id;
