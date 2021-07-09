@@ -45,7 +45,6 @@ export class AccountPage implements OnInit {
     this.signupForm.controls["lastname"].setValue(this.acs.user.lastname)
     this.signupForm.controls["phone"].setValue((<Driver>this.acs.user).phone)
 
-    console.log(this.acs.user)
   }
 
   get firstname() { return this.signupForm.get('firstname')}
@@ -90,8 +89,12 @@ export class AccountPage implements OnInit {
   editInfor(){
     this.isEditable = !this.isEditable;
 
-
     this.editClose = this.isEditable ? "Cancel" : "Edit"
+   
+    this.signupForm.controls["firstname"].setValue(this.acs.user.firstname)
+    this.signupForm.controls["lastname"].setValue(this.acs.user.lastname)
+    this.signupForm.controls["phone"].setValue((<Driver>this.acs.user).phone)
+  
   }
 
   update(){

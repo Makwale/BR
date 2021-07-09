@@ -24,15 +24,19 @@
     <img *ngIf="!acs.user.imgURL" [src]="defaultPic">
     <img *ngIf="acs.user.imgURL != ''" [src]="acs.user.imgURL">
   </ion-avatar>
-  <ion-button color="ourtheme" fill="transparent" style="margin: auto;" (click)="edit()"><ion-icon size="large" color="ourtheme" name="camera-outline"></ion-icon></ion-button>
-      
+
+  <div style="position: absolute; z-index: 500; top: 135px; left: 58%;">
+    <button id="edit" (click)="edit($event)" mat-mini-fab  style="background-color: white;">
+      <mat-icon style="color: #0a4694;">camera_alt</mat-icon>
+    </button>
+  </div>
 </div>
   
 
   <form [formGroup]="signupForm">
     <ion-item>
       <ion-label color="ourtheme" position="floating">First Name</ion-label>
-      <ion-input [disabled]="!isEditable"  (ionInput)="fnameEnable()" formControlName="firstname" required enterkeyhint="next" ></ion-input>
+      <ion-input style="font-weight: bold; font-size: 91%;" [disabled]="!isEditable"  (ionInput)="fnameEnable()" formControlName="firstname" required enterkeyhint="next" ></ion-input>
     
     </ion-item>
 
@@ -54,7 +58,7 @@
 
     <ion-item>
       <ion-label color="ourtheme" position="floating">Last Name</ion-label>
-      <ion-input [disabled]="!isEditable"  (ionInput)="lnameEnable()" formControlName="lastname" enterkeyhint="next"></ion-input>
+      <ion-input style="font-weight: bold; font-size: 91%;" [disabled]="!isEditable"  (ionInput)="lnameEnable()" formControlName="lastname" enterkeyhint="next"></ion-input>
     </ion-item>
 
     <div *ngIf="lenabled">
@@ -74,7 +78,7 @@
   
     <ion-item>
       <ion-label color="ourtheme" position="floating">Student Number</ion-label>
-      <ion-input [disabled]="!isEditable" (ionInput)="phoneEnable()" formControlName="studentNumber" type="number" max="9" enterkeyhint="next">
+      <ion-input style="font-weight: bold; font-size: 91%;" [disabled]="!isEditable" (ionInput)="phoneEnable()" formControlName="studentNumber" type="number" max="9" enterkeyhint="next">
   
       </ion-input>
       
@@ -102,7 +106,7 @@
   
   </form>
 
-  <ion-button [disabled]="!isEditable || signupForm.status == 'INVALID'" size="small" expand="block" color="ourtheme" (click)="update()">Update</ion-button>
+  <ion-button [disabled]="!isEditable || signupForm.status == 'INVALID'" size="medium" expand="block" color="ourtheme" (click)="update()">Update</ion-button>
 
 
 </ion-content>

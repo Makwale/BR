@@ -289,14 +289,24 @@ export class DatabaseService {
           imgURL: url,
         }).then(() => {
           this.popoverController.dismiss();
-          alert("Profile picture updated")
+          this.ourToast("Profile picture updated", "success")
+          
         }).catch(async error => {
-          alert(error.message)
+          this.ourToast(error.message, "danger")
         });
 
       })
   	})).subscribe()	
     
+  }
+
+  async ourToast(message, color){
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 3000,
+      color: color
+    });
+    toast.present();
   }
 
 

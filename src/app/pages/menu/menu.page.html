@@ -2,15 +2,24 @@
   <ion-toolbar>
     <ion-title color="ourtheme">BR</ion-title>
 
+    
+    <ion-buttons slot="start">
+      <ion-button (click)="toggle()"><ion-icon size="large" color="ourtheme" name="menu-outline"></ion-icon></ion-button>
+    </ion-buttons>
+
     <ion-buttons slot="end">
+      <ion-button *ngIf="acs.loginStatus"(click)="profile($event)">
+        <ion-avatar  style="height: 25px; width: 25px; margin-right: 3px;">
+          <img *ngIf="!acs.user.imgURL" [src]="defaultPic">
+          <img *ngIf="acs.user.imgURL != ''" [src]="acs.user.imgURL">
+        </ion-avatar>
+        <ion-icon color="ourtheme" name="chevron-down"></ion-icon>
+      </ion-button>
+
       <ion-button (click)="searchbus()">
         <ion-icon color="ourtheme" name="search-outline"></ion-icon>
       </ion-button>
       <!-- <ion-button (click)="toggle()"><ion-icon size="large" color="ourtheme" name="menu-outline"></ion-icon></ion-button> -->
-    </ion-buttons>
-
-    <ion-buttons slot="start">
-      <ion-button (click)="toggle()"><ion-icon size="large" color="ourtheme" name="menu-outline"></ion-icon></ion-button>
     </ion-buttons>
 
   </ion-toolbar>
@@ -29,9 +38,13 @@
       <ion-avatar style="height: 150px; width: 150px; margin: auto; margin-top: 10px;">
         <img *ngIf="acs.user.imgURL == ''" [src]="defaultPic">
         <img *ngIf="acs.user.imgURL != ''" [src]="acs.user.imgURL">
-
       </ion-avatar>
-      <ion-button color="ourtheme" fill="transparent" style="margin: auto;" (click)="edit()"><ion-icon size="large" color="ourtheme" name="camera-outline"></ion-icon></ion-button>
+      
+      <div style="position: absolute; z-index: 500; top: 174px; left: 58%;">
+        <button id="edit" (click)="edit($event)" mat-mini-fab  style="background-color: white;">
+          <mat-icon style="color: #0a4694;">camera_alt</mat-icon>
+        </button>
+      </div>
       
     </div>
     
@@ -40,16 +53,14 @@
         <ion-item (click)="navigate('')" ><ion-icon color="ourtheme" slot="start" name="home-outline"></ion-icon><span style="color: #0a4694;">Home</span></ion-item>
         
         <ion-item *ngIf="acs.loginStatus" (click)="navigate('bookings')" ><ion-icon color="ourtheme" slot="start" name="bookmark-outline"></ion-icon><span style="color: #0a4694;">Bookings</span></ion-item>
-        
-        <ion-item (click)="navigate('map')"> <ion-icon color="ourtheme" slot="start" name="map-outline"></ion-icon><span style="color: #0a4694;">Map</span></ion-item>
        
         <ion-item *ngIf="acs.loginStatus" (click)="navigate('account')" ><ion-icon color="ourtheme" slot="start" name="person-outline"></ion-icon><span style="color: #0a4694;">Account</span></ion-item>
         
-        <ion-item *ngIf="!acs.loginStatus" (click)="navigate('signin')"><ion-icon color="ourtheme" slot="start" name="log-in-outline"></ion-icon><span style="color: #0a4694;">Signin</span></ion-item>
+        <ion-item *ngIf="!acs.loginStatus" (click)="navigate('signin')"><ion-icon color="ourtheme" slot="start" name="log-in-outline"></ion-icon><span style="color: #0a4694;">Sign In</span></ion-item>
         
-        <ion-item *ngIf="!acs.loginStatus" (click)="navigate('signup')"><ion-icon slot="start" color="ourtheme" name="person-add-outline"></ion-icon><span style="color: #0a4694;">Signup</span></ion-item>
+        <ion-item *ngIf="!acs.loginStatus" (click)="navigate('signup')"><ion-icon slot="start" color="ourtheme" name="person-add-outline"></ion-icon><span style="color: #0a4694;">Sign Up</span></ion-item>
         
-        <ion-item *ngIf="acs.loginStatus" (click)="signout()" ><ion-icon slot="start" color="ourtheme" name="log-out-outline"></ion-icon><span style="color: #0a4694;">Signout</span></ion-item>
+        <ion-item *ngIf="acs.loginStatus" (click)="signout()" ><ion-icon slot="start" color="ourtheme" name="log-out-outline"></ion-icon><span style="color: #0a4694;">Sign Out</span></ion-item>
         
       </ion-list>
     </ion-content>
@@ -58,38 +69,9 @@
   <ion-router-outlet id="main"></ion-router-outlet>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="ourtheme">
-      <ion-icon name="chevron-up-circle-outline"></ion-icon>
+    <ion-fab-button color="ourtheme" (click)="navigateToMap()" >
+      <ion-icon name="map"></ion-icon>
     </ion-fab-button>
-    <ion-fab-list side="top">
-      <ion-fab-button (click)="navigatef('')" color="ourtheme">
-        <ion-icon name="home"></ion-icon>
-      </ion-fab-button>
-
-      <ion-fab-button *ngIf="acs.loginStatus" (click)="navigatef('bookings')" color="ourtheme">
-        <ion-icon name="bookmark"></ion-icon>
-      </ion-fab-button>
-
-      <ion-fab-button (click)="navigatef('map')" color="ourtheme">
-        <ion-icon name="map"></ion-icon>
-      </ion-fab-button>
-
-      <ion-fab-button *ngIf="acs.loginStatus" (click)="navigatef('account')" color="ourtheme">
-        <ion-icon name="person"></ion-icon>
-      </ion-fab-button>
-
-      <ion-fab-button *ngIf="!acs.loginStatus" (click)="navigatef('signin')" color="ourtheme">
-        <ion-icon name="log-in"></ion-icon>
-      </ion-fab-button>
-
-      <ion-fab-button *ngIf="!acs.loginStatus" (click)="navigatef('signup')" color="ourtheme">
-        <ion-icon name="person-add"></ion-icon>
-      </ion-fab-button>
-
-      <ion-fab-button *ngIf="acs.loginStatus"  (click)="signoutf()" color="ourtheme">
-        <ion-icon name="log-out"></ion-icon>
-      </ion-fab-button>
-    </ion-fab-list>
   </ion-fab>
 
 </ion-content>

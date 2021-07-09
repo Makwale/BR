@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="ourtheme">
-    <ion-title>Signin</ion-title>
+    <ion-title>Sign In</ion-title>
     
     <ion-buttons slot="start">
       <ion-back-button>
@@ -30,15 +30,15 @@
       <ion-col size="12">
         <ion-item *ngIf="!isReset">
           <ion-label color="ourtheme" position="floating">Email</ion-label>
-          <ion-input [(ngModel)]="email" type="email" ></ion-input>
+          <ion-input style="font-weight: bold; font-size: 91%" [(ngModel)]="email" type="email" ></ion-input>
         </ion-item>
 
         <ion-item *ngIf="!isReset">
           <ion-label color="ourtheme" position="floating">Password</ion-label>
-          <ion-input [(ngModel)]="password" type="password"></ion-input>
+          <ion-input style="font-weight: bold; font-size: 91%" [(ngModel)]="password" type="password"></ion-input>
         </ion-item>
 
-        <ion-button *ngIf="!isReset" (click)="signin()" expand="block" color="ourtheme"><span *ngIf="!auth.clicked">Signin</span><ion-spinner *ngIf="auth.clicked" name="bubbles"></ion-spinner></ion-button>
+        <ion-button *ngIf="!isReset" (click)="signin()" expand="block" color="ourtheme"><span *ngIf="!auth.clicked">Sign In</span><ion-spinner *ngIf="auth.clicked" name="bubbles"></ion-spinner></ion-button>
         <div style="text-align: center;" *ngIf="!isReset">
           <ion-label>Forgot Password? </ion-label> <ion-label color="ourtheme" (click)="reset()">Click here</ion-label>
         </div>
@@ -46,7 +46,7 @@
         <div *ngIf="isReset">
           <ion-item>
             <ion-label color="ourtheme" position="floating">Email</ion-label>
-            <ion-input [(ngModel)]="email" type="email" ></ion-input>
+            <ion-input style="font-weight: bold; font-size: 91%" [(ngModel)]="email" type="email" ></ion-input>
           </ion-item>
           <ion-button (click)="resetPassword()" expand="block"  color="ourtheme"><span>Reset</span></ion-button>
           <ion-button style="margin-top: 10px;" (click)="cancel()" expand="block"  color="light"><span>Cancel</span></ion-button>

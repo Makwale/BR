@@ -10,6 +10,10 @@ import { AccountPage } from './account.page';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
+
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -18,6 +22,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ReactiveFormsModule,
     AccountPageRoutingModule,
     MatInputModule,
+    MatButtonModule,
+    MatIconModule,
     MatFormFieldModule
   ],
   declarations: [AccountPage]

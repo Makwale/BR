@@ -77,11 +77,12 @@ export class AccountPage implements OnInit {
     
   }
 
-  async edit(){
+  async edit(event){
     const popover = await this.popoverController.create({
       component: EditpicPage,
       cssClass: 'my-custom-class',
-      translucent: true
+      translucent: true,
+      event: event
     });
     await popover.present();
 
@@ -92,6 +93,11 @@ export class AccountPage implements OnInit {
 
 
     this.editClose = this.isEditable ? "Cancel" : "Edit"
+
+    this.signupForm.controls["firstname"].setValue(this.acs.user.firstname)
+    this.signupForm.controls["lastname"].setValue(this.acs.user.lastname)
+    this.signupForm.controls["studentNumber"].setValue((<Student>this.acs.user).studentNumber)
+    
   }
 
   update(){

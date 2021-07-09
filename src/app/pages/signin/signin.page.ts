@@ -38,6 +38,7 @@ export class SigninPage implements OnInit {
 
   cancel(){
     this.email = ""
+    this.password = ""
     this.isReset = false;
   }
 

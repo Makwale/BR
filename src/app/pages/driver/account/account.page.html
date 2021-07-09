@@ -21,7 +21,7 @@
   <form [formGroup]="signupForm" style="margin-top: 20px;">
     <ion-item>
       <ion-label color="ourtheme" position="stacked">First Name</ion-label>
-      <ion-input [disabled]="!isEditable"  (ionInput)="fnameEnable()" formControlName="firstname" required enterkeyhint="next" ></ion-input>
+      <ion-input style="font-weight: bold; font-size: 91%" [disabled]="!isEditable"  (ionInput)="fnameEnable()" formControlName="firstname" required enterkeyhint="next" ></ion-input>
     
     </ion-item>
 
@@ -43,7 +43,7 @@
 
     <ion-item>
       <ion-label color="ourtheme" position="stacked">Last Name</ion-label>
-      <ion-input [disabled]="!isEditable"  (ionInput)="lnameEnable()" formControlName="lastname" enterkeyhint="next"></ion-input>
+      <ion-input style="font-weight: bold; font-size: 91%" [disabled]="!isEditable"  (ionInput)="lnameEnable()" formControlName="lastname" enterkeyhint="next"></ion-input>
     </ion-item>
 
     <div *ngIf="lenabled">
@@ -66,11 +66,11 @@
       <ion-grid>
         <ion-row>
           <ion-col size="1" style="margin: 0px; padding: 0px;">
-            <ion-input readonly value="+27"  [disabled]="!isEditable"></ion-input>
+            <ion-input style="font-weight: bold; font-size: 91%" readonly value="+27"  [disabled]="!isEditable"></ion-input>
           </ion-col>
           <ion-col size="11" style="margin: 0px; padding: 0px;">
           
-            <ion-input [disabled]="!isEditable" type="number" (ionInput)="phoneEnable()" placeholder="694534433" formControlName="phone" type="number" max="10" enterkeyhint="next"></ion-input>
+            <ion-input style="font-weight: bold; font-size: 91%" [disabled]="!isEditable" type="number" (ionInput)="phoneEnable()" placeholder="694534433" formControlName="phone" type="number" max="10" enterkeyhint="next"></ion-input>
 
           </ion-col>
         </ion-row>
@@ -100,7 +100,7 @@
   
   </form>
 
-  <ion-button [disabled]="!isEditable || signupForm.status == 'INVALID'" size="small" expand="block" color="ourtheme" (click)="update()">Update</ion-button>
+  <ion-button [disabled]="!isEditable || signupForm.status == 'INVALID'" size="medium" expand="block" color="ourtheme" (click)="update()">Update</ion-button>
 
 
 </ion-content>

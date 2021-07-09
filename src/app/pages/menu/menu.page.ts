@@ -10,6 +10,7 @@ import { EditpicPage } from '../editpic/editpic.page';
 import { SearchbusPage } from '../searchbus/searchbus.page';
 import { OneSignal, OSNotification } from '@ionic-native/onesignal/ngx';
 import { AuthService } from 'src/app/services/auth.service';
+import { ProfilePage } from '../profile/profile.page';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class MenuPage implements OnInit {
     private menu: MenuController, private router: Router,
     private dbs: DatabaseService, private acs: AccountService, 
     private afa: AngularFireAuth, public popoverController: PopoverController,
-    private oneSignal: OneSignal, private auth: AuthService,) { }
+    private oneSignal: OneSignal, private auth: AuthService) { }
 
   ngOnInit() {
 
@@ -63,6 +64,10 @@ export class MenuPage implements OnInit {
       this.router.navigateByUrl("menu/" + route)
   }
 
+  navigateToMap(){
+    this.router.navigateByUrl("menu/map")
+  }
+
   signout(){
     this.afa.signOut().then(res => {
       this.acs.loginStatus = false;
@@ -80,11 +85,23 @@ export class MenuPage implements OnInit {
     })
   }
 
-   async edit(){
+   async edit(event){
     const popover = await this.popoverController.create({
       component: EditpicPage,
       cssClass: 'my-custom-class',
-      translucent: true
+      translucent: true,
+      event: event
+    });
+    await popover.present();
+
+  }
+
+  async profile(event){
+    const popover = await this.popoverController.create({
+      component: ProfilePage,
+      cssClass: 'my-custom-class',
+      translucent: true,
+      event: event
     });
     await popover.present();
 

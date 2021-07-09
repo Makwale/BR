@@ -41,6 +41,7 @@ export class LoginPage implements OnInit {
 
   cancel(){
     this.email = ""
+    this.password = ""
     this.isReset = false;
   }
 

@@ -22,6 +22,9 @@ import { AuthService } from './services/auth.service';
 import { MenudriverPage } from './pages/driver/menudriver/menudriver.page';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+
 const firebaseConfig = {
   apiKey: "AIzaSyCvsvYeDkWYPNVJdVtdFvt7PpQirycbaxI",
   authDomain: "bus-project-52efc.firebaseapp.com",
@@ -42,6 +45,8 @@ const firebaseConfig = {
     AngularFireStorageModule, 
     MatInputModule,
     MatFormFieldModule,
+    MatButtonModule,
+    MatIconModule,
     BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, BrowserAnimationsModule],
   providers: [OneSignal,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, FormBuilder, AuthService,BarcodeScanner],
   bootstrap: [AppComponent],

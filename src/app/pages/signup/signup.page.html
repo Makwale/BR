@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="ourtheme">
-    <ion-title>Signup</ion-title>
+    <ion-title>Sign Up</ion-title>
 
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
@@ -18,14 +18,14 @@
   <div style="position: absolute; z-tabindex: 150; top: 20%; width: 100%; background-color: white; border-top-left-radius: 10px; border-top-right-radius: 10px;">
 
     <div style="text-align: center; margin-top: 20px;">
-      <ion-label>Already have an account? </ion-label> <ion-label color="ourtheme" (click)="navigate()">Signin here</ion-label>
+      <ion-label>Already have an account? </ion-label> <ion-label color="ourtheme" (click)="navigate()">Sign in here</ion-label>
   
     </div>
     
     <form [formGroup]="signupForm">
       <ion-item>
         <ion-label color="ourtheme" position="floating">First Name</ion-label>
-        <ion-input tabindex="0"  (ionInput)="fnameEnable()" formControlName="firstname" required enterkeyhint="next" ></ion-input>
+        <ion-input style="font-weight: bold; font-size: 91%;" tabindex="0"  (ionInput)="fnameEnable()" formControlName="firstname" required enterkeyhint="next" ></ion-input>
       
       </ion-item>
   
@@ -47,7 +47,7 @@
   
       <ion-item>
         <ion-label color="ourtheme" position="floating">Last Name</ion-label>
-        <ion-input tabindex="1" (ionInput)="lnameEnable()" formControlName="lastname" enterkeyhint="next"></ion-input>
+        <ion-input style="font-weight: bold; font-size: 91%;" tabindex="1" (ionInput)="lnameEnable()" formControlName="lastname" enterkeyhint="next"></ion-input>
       </ion-item>
   
       <div *ngIf="lenabled">
@@ -67,7 +67,7 @@
     
       <ion-item>
         <ion-label color="ourtheme" position="floating">Student Number</ion-label>
-        <ion-input tabindex="2" (ionInput)="phoneEnable()" formControlName="studentNumber" type="number" max="9" enterkeyhint="next">
+        <ion-input style="font-weight: bold; font-size: 91%;" tabindex="2" (ionInput)="phoneEnable()" formControlName="studentNumber" type="number" max="9" enterkeyhint="next">
     
         </ion-input>
         
@@ -95,7 +95,7 @@
     
       <ion-item>
         <ion-label color="ourtheme" position="floating">Email</ion-label>
-        <ion-input tabindex="4" type="password" (ionInput)="emailEnable()" formControlName="email" type="email" enterkeyhint="next"></ion-input>
+        <ion-input style="font-weight: bold; font-size: 91%;" tabindex="4" type="password" (ionInput)="emailEnable()" formControlName="email" type="email" enterkeyhint="next"></ion-input>
       </ion-item>
   
       <div *ngIf="emenabled">
@@ -111,7 +111,7 @@
     
       <ion-item>
         <ion-label color="ourtheme" position="floating">Password</ion-label>
-        <ion-input tabindex="6" type="password" (ionInput)="passEnable()" formControlName="password" enterkeyhint="next"></ion-input>
+        <ion-input style="font-weight: bold; font-size: 91%;" tabindex="6" type="password" (ionInput)="passEnable()" formControlName="password" enterkeyhint="next"></ion-input>
       </ion-item>
   
       <div *ngIf="passenabled">
@@ -128,13 +128,13 @@
     
       <ion-item>
         <ion-label color="ourtheme" position="floating">Confirm Password</ion-label>
-        <ion-input formControlName="cpassword" enterkeyhint="done" type="password"></ion-input>
+        <ion-input style="font-weight: bold; font-size: 91%;" formControlName="cpassword" enterkeyhint="done" type="password"></ion-input>
       </ion-item>
   
     
     </form>
   
-    <ion-button (click)="signup()" [disabled]="signupForm.status == 'INVALID'"  expand="block" color="ourtheme"><span *ngIf="!auth.clicked">Signup</span> <ion-spinner *ngIf="auth.clicked" name="bubbles"></ion-spinner></ion-button>
+    <ion-button (click)="signup()" [disabled]="signupForm.status == 'INVALID'"  expand="block" color="ourtheme"><span *ngIf="!auth.clicked">Sign Up</span> <ion-spinner *ngIf="auth.clicked" name="bubbles"></ion-spinner></ion-button>
   
   
 
